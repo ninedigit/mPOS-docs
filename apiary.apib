@@ -1033,7 +1033,7 @@ URL addresses for each resource or RPC action are mentioned in relevant chapter 
 Please note several differences between original routes and OData routes:
 
 1. HTTP status code is 400 instead of 422, in invalid payload scenarios.
-2. JSON Serialization of dictionaries are different. This affects JSON representation of `device.Settings`, `fiscal.Settings` and `orderEndpoint.Settings`.
+2. JSON Serialization of dictionaries are different. This affects JSON representation of `device.Settings`, `fiscal.Settings`, `orderEndpoint.Settings` and `stockTransfer.Meta`.
 
 Examples of classic and OData serialization of device model is provided below. Please note `Settings` property differences - serialization as *object* in regular API routes, and serialization as *key-value pair collection* in OData routes.
 
@@ -5450,6 +5450,194 @@ Gets stock specified by its `Id`.
 
     + Attributes (StockTaking)
 
+# Group Stock Transfers
+
+Stock transfers provides way to perform stock quantity changes on stock items.
+Stock transfer may be updated repeatedly. Delta is calculated on server side, affecting stock quantity and stock value on relevant PLUs.
+
+## Stock transfers collection [/api/stocktransfers/]
+
++ Attributes (StockTransfer)
+
+### Get all stock transfers [GET]
+
++ Request
+
+    + Headers
+
+            X-Access-Token: {{TokenId}}
+            Content-Type: application/json; charset=utf-8
+            Accept: application/json
+
++ Response 200 (application/json)
+    
+    + Attributes (array[StockTransfer])
+
+### Create stock transfer [POST]
+
++ Request
+
+    + Header
+    
+            X-Access-Token: {{TokenId}}
+            Content-Type: application/json; charset=utf-8
+            Accept: application/json
+
+    + Attributes (StockTransfer)
+
++ Response 201 (application/json)
+
+    + Attributes (StockTransfer)
+
+## Stock transfer [/api/stocktransfer/{id}]
+
++ Parameters
+
+    + id: a28da78k (string) - An unique Id of the stock transfer.
+
+### Get stock transfer [GET]
+
+Gets stock specified by its `Id`.
+
++ Request
+
+    + Header
+    
+            X-Access-Token: {{TokenId}}
+            Content-Type: application/json; charset=utf-8
+            Accept: application/json
+
++ Response 200 (application/json)
+
+    + Attributes (StockTransfer)
+
++ Response 404 (application/json)
+
+        {
+          "Message": "Resource not found.",
+          "Code": 7
+        }
+
+### Create or update stock transfer [PUT]
+
++ Request
+
+    + Header
+    
+            X-Access-Token: {{TokenId}}
+            Content-Type: application/json; charset=utf-8
+            Accept: application/json
+
+    + Attributes (StockTransfer)
+
++ Response 200 (application/json)
+
+    + Attributes (StockTransfer)
+
+### Delete stock transfer [DELETE]
+
++ Request
+
+    + Header
+    
+            X-Access-Token: {{TokenId}}
+            Content-Type: application/json; charset=utf-8
+            Accept: application/json
+
++ Response 200 (application/json)
+
+    + Attributes (StockTransfer)
+
+## OData stock transfers collection [/odata/StockTransfers]
+
+### Get all stock transfers [GET]
+
++ Request
+
+    + Headers
+
+            X-Access-Token: {{TokenId}}
+            Content-Type: application/json; charset=utf-8
+            Accept: application/json
+
++ Response 200 (application/json)
+    
+    + Attributes (array[StockTransfer])
+
+### Create stock transfer [POST]
+
++ Request
+
+    + Header
+    
+            X-Access-Token: {{TokenId}}
+            Content-Type: application/json; charset=utf-8
+            Accept: application/json
+
+    + Attributes (StockTransfer)
+
++ Response 201 (application/json)
+
+    + Attributes (StockTransfer)
+
+## OData stock transfer [/odata/StockTransfers('{id}')]
+
++ Parameters
+
+    + id: a28da78k (string) - An unique Id of the stock transfer.
+
+### Get stock transfer [GET]
+
+Gets stock specified by its `Id`.
+
++ Request
+
+    + Header
+    
+            X-Access-Token: {{TokenId}}
+            Content-Type: application/json; charset=utf-8
+            Accept: application/json
+
++ Response 200 (application/json)
+
+    + Attributes (StockTransfer)
+
++ Response 404 (application/json)
+
+        {
+          "Message": "Resource not found.",
+          "Code": 7
+        }
+
+### Create or update stock transfer [PUT]
+
++ Request
+
+    + Header
+    
+            X-Access-Token: {{TokenId}}
+            Content-Type: application/json; charset=utf-8
+            Accept: application/json
+
+    + Attributes (StockTransfer)
+
++ Response 200 (application/json)
+
+    + Attributes (StockTransfer)
+
+### Delete stock transfer [DELETE]
+
++ Request
+
+    + Header
+    
+            X-Access-Token: {{TokenId}}
+            Content-Type: application/json; charset=utf-8
+            Accept: application/json
+
++ Response 200 (application/json)
+
+    + Attributes (StockTransfer)
 
 # Group Tickets
 
@@ -6513,7 +6701,7 @@ Gets zone specified by its unique `Name`.
 + Id: `56e28558` (required, string) - Unique company Id
 + Name: `TESCO inc.` (required, string) - Company name
 + Address (required, Address) - Company address informations
-+ ShippingAddress (required, Address) - Company shipping address informations
++ ShippingAddress (optional, Address) - Company shipping address informations
 + Contact (required, Contact) - Company contant informations
 + BankAccount (required, BankAccount) - Informations about company bank account and bank itself
 + CRN: `12345678` (required, string) - Company registration number (known as IČO, in Slovak Republic)
@@ -6889,6 +7077,70 @@ Gets zone specified by its unique `Name`.
 + VatInfo (required, VAT model) - informations about VAT category and VAT rate, based on VatCategory of PLU.
 + RetailPrice (required, Money) - PLU retail price.
 + PurchasePrice (required, Money) - PLU average purchase price, calculated by division of PLU's stock value and stock quantity.
+
+## StockTransfer (object)
+
++ Id: 56e28558 (optional, string) - Unique stock transfer identifier
++ CreatedAt: `2016-03-17T15:49:32.473Z` (required, string) - Date and time of stock transfer creation (ISO8601 format).
++ ClosedAt: `2016-03-17T15:49:32.473Z` (optional, string) - Date and time of stock transfer closure (ISO8601 format).
++ CreatedBy (required, UserInfo) - informations about employee that creates this stock transfer.
++ ClosedBy (optional, UserInfo) - informations about employee that closes this stock transfer.
++ Category: 1 (required, number) - category with following values: 0 = unknown, 1 = income, 2 - outcome, 3 - transfer, 4 - correction
++ SubCategory: 1 (required, number) - sub category with following values: 0 = unknown, 1 = sale, 2 = stock taking correction
++ Partner (optional, StockTransferCompanyInfo) - Informations about business partner (purchaser or supplier)
++ Company (required, StockTransferCompanyInfo) - Informations about system owner company
++ DueDate: `2016-03-17T15:49:32.473Z` (optional, string) - Optional date and time of stock transfer payment date (ISO8601 format).
++ DocumentNumber: 123 (optional, number) - Document number provided by server side
++ DocumentDate: `2016-03-17T15:49:32.473Z` (required, string) - Date and time of stock transfer evidence, which may be different from actual system date and time (ISO8601 format).
++ VariableSymbol: `20160123` (optional, string) - stock transfer variable symbol
++ ConstantSymbol: `0308` (optional, string) - stock transfer constant symbol
++ SpecificSymbol: `123456` (optional, string) - stock transfer specific symbol
++ Note: `This is a note.` (optional, string) - Optional string note
++ DeliveryType (required, number) - Delivery type with following values: 0 = unknown, 1 = none, 2 = cartage, 3 = post office, 4 = courier
++ PaymentInfo (optional, StockTransferPaymentInfo) - Payment informations related to this stock transfer
++ Items (required, array[StockTransferItem]) - collection of PLUs with type stock item.
++ Meta (optional, object) - string-string dictionary used as a storage for meta iformations related to this stock transfer.
+
+## StockTransferCompanyInfo (object)
+
++ Name: `TESCO inc.` (required, string) - Company name
++ CRN: `12345678` (required, string) - Company registration number (known as IČO, in Slovak Republic)
++ VatId: `SK1020304050` (required, string) - Vat ID (known as IČ DPH, in Slovak Republic)
++ TaxId: `1020305060` (required, string) - Tax ID (known as DIČ, in Slovak Republic)
++ TaxPayer: true (required, boolean) - Defines whether company is tax payer
++ Register: `reg v OR OS Bratislava I, vl.č. 12345/B` (required, string) - Optional company registration informations
++ Contact (required, Contact) - Company contant informations
++ Address (required, Address) - Company address informations
++ ShippingAddress (optional, Address) - Company shipping address informations
++ BankAccount (required, BankAccount) - Informations about company bank account and bank itself
+
+## StockTransferPaymentInfo (object)
+
++ PaymentType: 0 (required, number) - Payment method type with following values: 0 = unknown, 1 = cash, 2 = bank transfer, 3 = POS terminal, 4 = money order, 5 = cash on delivery, 6 = coupon, 7 = other
++ IsPaid: true (required, boolean) - 
++ PaidAt: `2016-03-17T15:49:32.473Z` (optional, string) - Date and time of stock transfer payment evidence (ISO8601 format).
+
+## StockTransferItem (object)
+
++ Id: 1 (optional, number) - Unique item Id (unique within stock transfer). Value is provided by server.
++ SourcePLU (optional, StockTransferItemPlu) - Informations about product that is being transfered from stock
++ DestinationPLU (optional, StockTransferItemPlu) - Informations about product that is being transfered to stock
++ Note: `This is a note.` (optional, string) - Optional string note
+
+## StockTransferItemPlu
+
++ Name: Milk (required, string) - PLU name
++ Code: 101 (required, number) - Lookup code. Each PLU can be identified uniquely by code and stock name. Note: 32 bit integer is used to store this value.
++ StockName: Stock01 (required, string) - Name of stock
++ PurchasePrice (optional, Money) - Product purchase price, including VAT. Required for PLUs with type `StockItem`. Optional otherwise.
++ RetailPrice (required, Money) - Product retail price including VAT.
++ VatInfo (required, VAT model) - Informations about VAT category and VAT rate.
++ Quantity (required, Quantity) - Contains positive or negative non-zero quantity.
++ DiscountRate: 50 (required, number) - indicates item discount rate, with value between 0 and 100 (inclusively), up to 2 decimal places.
++ IsDiscountAllowed: true (required, boolean) - Specifies whether discount can be placed on ticket item that represents this PLU.
++ Type: 1 (required, number) - Specifies type of PLU. See PLU section for possible PLU type values.
++ Note: `This is a note` (optional, string) - Optional string note.
++ ReceiptItems (optional, array[StockTransferItemPlu]) - Contains collection of receipt items. Available only in PLUs with "receipt" type.
 
 ## Ticket model (object)
 
