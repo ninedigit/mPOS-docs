@@ -4366,70 +4366,70 @@ Payment type represents method of payment, such as cash, credit card, etc.
         [
           {
             "Number": 1,
-            "Category": 1,
+            "Category": "CashPaymentType",
             "IsActive": true,
             "Description": "Cash",
             "IsChangeable": true
           },
           {
             "Number": 2,
-            "Category": 2,
+            "Category": "CreditCardPaymentType",
             "IsActive": true,
             "Description": "Credit card",
             "IsChangeable": false
           },
           {
             "Number": 3,
-            "Category": 3,
+            "Category": "OtherPaymentType",
             "IsActive": false,
             "Description": "Voucher",
             "IsChangeable": false
           },
           {
             "Number": 4,
-            "Category": 3,
+            "Category": "OtherPaymentType",
             "IsActive": false,
             "Description": "Check",
             "IsChangeable": false
           },
           {
             "Number": 5,
-            "Category": 3,
+            "Category": "OtherPaymentType",
             "IsActive": false,
             "Description": "Invoice",
             "IsChangeable": false
           },
           {
             "Number": 6,
-            "Category": 3,
+            "Category": "OtherPaymentType",
             "IsActive": false,
             "Description": "Uknown",
             "IsChangeable": false
           },
           {
             "Number": 7,
-            "Category": 3,
+            "Category": "OtherPaymentType",
             "IsActive": false,
             "Description": "Uknown",
             "IsChangeable": false
           },
           {
             "Number": 8,
-            "Category": 3,
+            "Category": "OtherPaymentType",
             "IsActive": false,
             "Description": "Uknown",
             "IsChangeable": false
           },
           {
             "Number": 9,
-            "Category": 3,
+            "Category": "OtherPaymentType",
             "IsActive": false,
             "Description": "Uknown",
             "IsChangeable": false
           },
           {
             "Number": 10,
-            "Category": 3,
+            "Category": "OtherPaymentType",
             "IsActive": false,
             "Description": "Uknown",
             "IsChangeable": false
@@ -4521,70 +4521,70 @@ Gets payment type specified by its `Number`.
         [
           {
             "Number": 1,
-            "Category": 1,
+            "Category": "CashPaymentType",
             "IsActive": true,
             "Description": "Cash",
             "IsChangeable": true
           },
           {
             "Number": 2,
-            "Category": 2,
+            "Category": "CreditCardPaymentType",
             "IsActive": true,
             "Description": "Credit card",
             "IsChangeable": false
           },
           {
             "Number": 3,
-            "Category": 3,
+            "Category": "OtherPaymentType",
             "IsActive": false,
             "Description": "Voucher",
             "IsChangeable": false
           },
           {
             "Number": 4,
-            "Category": 3,
+            "Category": "OtherPaymentType",
             "IsActive": false,
             "Description": "Check",
             "IsChangeable": false
           },
           {
             "Number": 5,
-            "Category": 3,
+            "Category": "OtherPaymentType",
             "IsActive": false,
             "Description": "Invoice",
             "IsChangeable": false
           },
           {
             "Number": 6,
-            "Category": 3,
+            "Category": "OtherPaymentType",
             "IsActive": false,
             "Description": "Uknown",
             "IsChangeable": false
           },
           {
             "Number": 7,
-            "Category": 3,
+            "Category": "OtherPaymentType",
             "IsActive": false,
             "Description": "Uknown",
             "IsChangeable": false
           },
           {
             "Number": 8,
-            "Category": 3,
+            "Category": "OtherPaymentType",
             "IsActive": false,
             "Description": "Uknown",
             "IsChangeable": false
           },
           {
             "Number": 9,
-            "Category": 3,
+            "Category": "OtherPaymentType",
             "IsActive": false,
             "Description": "Uknown",
             "IsChangeable": false
           },
           {
             "Number": 10,
-            "Category": 3,
+            "Category": "OtherPaymentType",
             "IsActive": false,
             "Description": "Uknown",
             "IsChangeable": false
@@ -6710,7 +6710,7 @@ Gets zone specified by its unique `Name`.
 + TaxPayer: true (required, boolean) - Defines whether company is tax payer
 + Register: `reg v OR OS Bratislava I, vl.č. 12345/B` (required, string) - Optional company registration informations
 + DueDays: 30 (required, number) - Number of days for invoice payment period
-+ Type: 1 (required, number) - Company type (0 - undefined, 1 - supplier, 2 - purchaser)
++ Type: Supplier (required, string) - Company type, one of following values: Unknown, Supplier, Purchaser
 + IsActive: true (required, boolean) - Determines whether this company is active and new stock transfers can be added
 + IsDefault: false (required, boolean) - Determines whether this company represents owner of cash register
 
@@ -6984,7 +6984,7 @@ Gets zone specified by its unique `Name`.
 
 ## Payment type (object)
 
-+ Category: 1 (required, number) - Only one payment type is marked as default default cash payment type (category is equal to 1), and default credit card payment type (category is euqal to 2). All other payment types have category value equal to 3.
++ Category: OtherPaymentType (required, string) - Only one payment type is marked as default default cash payment type (category is equal to "CashPaymentType"), and default credit card payment type (category is euqal to "CreditCardPaymentType"). All other payment types have category value equal to "OtherPaymentType".
 + Number: 2 (required, number) - unique identifier (in range from 1 to 10). 
 + IsActive: true (required, boolean) - describes whether this payment can be used during ticket closing.
 + Description: Credit card (required, string) - payment description visible on ticket
@@ -7008,7 +7008,7 @@ Gets zone specified by its unique `Name`.
 + IsDiscountAllowed: true (required, boolean) - Specifies whether discount can be placed on ticket item that represents this PLU.
 + IsPriceFixed: true (required, boolean) - Specifies whether this PLU can only be sold with provided retail price.
 + IsActive: true (required, boolean) - Specifies whether this PLU is active and can be used in ticket during sale.
-+ Type: 1 (required, number) - Specifies type of PLU. See PLU section for possible PLU type values.
++ Type: StockItem (required, string) - Specifies type of PLU. See PLU section for possible PLU type values.
 + Receipt (required, array[PluReceiptItem]) - Contains collection of receipt items. Available only in PLUs with "receipt" type.
 + Unit: pcs (required, string) - 3 characters long product measurement unit
 + MinStockQuantity (optional, Quantity) - Minimal stock quantity. Available only in PLUs with "stock item" type.
@@ -7148,7 +7148,7 @@ Gets zone specified by its unique `Name`.
 + Name: B2 (required, string) - Ticket name (usually choosen by cashier)
 + OpenDate: `2016-03-17T15:49:32.473Z` (required, string) - Date and time of ticket creation (ISO8601 format)
 + CloseInfo (optional, TicketCloseInfo) - Contains informations about ticket closure on fiscal printer. When this value is set, ticket is considered as closed.
-+ PurchaseType: 1 (required, number) - specifies ticket purchase type: 0 = unknown (Purchase type is not specified), 1 = walk in (The purchase is being held at the point of sale), 2 = take away (The purchase is being picked up at the point of sale), 3 = delivery (The purchase will be delivered to customer)
++ PurchaseType: WalkIn (required, string) - specifies ticket purchase type: Unknown (Purchase type is not specified), WalkIn (The purchase is being held at the point of sale), TakeAway (The purchase is being picked up at the point of sale), Delivery (The purchase will be delivered to customer)
 + Location (optional, TicketLocation) - Physical location of ticket, describes zone (room) and name of table
 + Customer (optional, CustomerInfo) - Informations about customer account
 + OriginDeviceName: CashRegister01 (required, string) - name of cash register, on which ticket was created
@@ -7205,7 +7205,7 @@ Gets zone specified by its unique `Name`.
 + IsDiscountAllowed: true (required, boolean) - specifies whether discount can be placed on this product
 + IsPriceFixed: true (required, boolean) - specifies whether ticket item unit price is changeable
 + IsSplittable: true (required, boolean) - specifies whether product can be only sold in integer quantities
-+ Type: 1 (required, number) - Specifies type of PLU. See PLU section for possible PLU type values.
++ Type: Recipe (required, string) - Specifies type of PLU. See PLU section for possible PLU type values.
 + OrderEndpointNames: [] (optional, array[string]) - Collection of order endpoint names, on which orders for this product will be printed to
 + VatInfo (required, VAT model) - informations about VAT category and VAT rate
 
@@ -7303,6 +7303,6 @@ Gets zone specified by its unique `Name`.
 + Position (required, Coordinates) - position of zone item
 + Height (required, number) - height of zone item
 + Width (required, number) - width of zone item
-+ Shape: 1 (required, number) - defines shape of zone item (0 - Circle, 1 - rectangle)
++ Shape: Circle (required, string) - defines shape of zone item, with one of following values: Circle, Rectangle
 + Rotation: 45 (required, number) - Clockwise rotation in degrees 
 + Color: #fff (required, string) - RGB encoded color in format "#ffffff" or "#fff"
