@@ -6633,6 +6633,7 @@ Gets zone specified by its unique `Name`.
 + Color: `#cccccc` (string) - Optional RGB representation of article category color.
 + Description: Pizza (required, string) - full article category name
 + Label: PIZ (required, string) - up to 3 characters long unique article category label
++ CourseNumber: 0 (optional, number) - Optional course number. 
 
 ## Authorization result (object)
 
@@ -6713,6 +6714,7 @@ Gets zone specified by its unique `Name`.
 + Type: Supplier (required, string) - Company type, one of following values: Unknown, Supplier, Purchaser
 + IsActive: true (required, boolean) - Determines whether this company is active and new stock transfers can be added
 + IsDefault: false (required, boolean) - Determines whether this company represents owner of cash register
++ DiscountRate: 50 (required, number) - Discount rate percentage, with value between 0 and 100, with precision up to two decimal places
 
 ## Contact (object)
 
@@ -6935,9 +6937,10 @@ Gets zone specified by its unique `Name`.
 
 ## OrderItemPlu (object)
 
-+ Code: 123 (required, number) - product code
-+ Name: Pizza Hawaii (required, string) - product name
-+ StockName: Stock01 (required, string) - name of stock in which product is registered
++ Code: 123 (required, number) - product code.
++ Name: Pizza Hawaii (required, string) - product name.
++ StockName: Stock01 (required, string) - name of stock in which product is registered.
++ CourseNumber: 0 (optional, number) - Optional course number.
 
 ## OrderItemEndpointStatusChange (object)
 
@@ -7014,6 +7017,7 @@ Gets zone specified by its unique `Name`.
 + MinStockQuantity (optional, Quantity) - Minimal stock quantity. Available only in PLUs with "stock item" type.
 + PriceHistory (required, array[PLU price history item]) - Array containing information about each retail price change.
 + Color: `#fff` (optional, string) - Optional RGB representation of PLU color, visible in applications for cashiers.
++ CourseNumber: 0 (optional, number) - Optional course number.
 
 ## PLU price history item (object)
 
@@ -7208,6 +7212,7 @@ Gets zone specified by its unique `Name`.
 + Type: Recipe (required, string) - Specifies type of PLU. See PLU section for possible PLU type values.
 + OrderEndpointNames: [] (optional, array[string]) - Collection of order endpoint names, on which orders for this product will be printed to
 + VatInfo (required, VAT model) - informations about VAT category and VAT rate
++ CourseNumber: 0 (optional, number) - Optional course number.
 
 ## TicketPayment (object)
 
