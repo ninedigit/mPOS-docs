@@ -6942,11 +6942,11 @@ Gets zone specified by its unique `Name`.
 ## OrderItemEndpointStatusChange (object)
 
 + Date: `2016-03-17T15:49:32.473Z` (required, string) - Date and time of status change (ISO8601 format)
-+ Status: 1 (required, number) - Order status value
++ Status: ProcessSkipped (required, string) - Order status value. See Order processing section for list of defined values.
 
 ## OrderStatusContext (object)
 
-+ Status: 1 (required, number) - Order status value
++ Status: ProcessSkipped (required, string) - Order status value. See Order processing section for list of defined values.
 
 ## OrderStatusContextOData (object)
 
@@ -6954,7 +6954,7 @@ Gets zone specified by its unique `Name`.
 
 ## OrderStatusContextODataPayload
 
-+ Status: 1 (required, string) - Order status value, that contains string representation of status or its number ("1" or "Created").
++ Status: ProcessSkipped (required, string) - Order status value. See Order processing section for list of defined values.
 
 ## OrderItemStatusContextOData (object)
 
@@ -6963,7 +6963,7 @@ Gets zone specified by its unique `Name`.
 ## OrderItemStatusContextODataPayload (object)
 
 + OrderItemId: 1 (required, number) - Numeric order item identifier
-+ Status: 1 (required, string) - Order status value, that contains string representation of status or its number ("1" or "Created").
++ Status: ProcessSkipped (required, string) - Order status value. See Order processing section for list of defined values.
 
 ## OrderEndpointStatusContextOData (object)
 
@@ -6972,7 +6972,7 @@ Gets zone specified by its unique `Name`.
 ## OrderEndpointStatusContextODataPayload (object)
 
 + OrderEndpointName: Kitchen (required, string) - Name of order endpoint
-+ Status: 1 (required, string) - Order status value, that contains string representation of status or its number ("1" or "Created").
++ Status: ProcessSkipped (required, string) - Order status value. See Order processing section for list of defined values.
 
 ## ProcessOrdersQuery (object)
 
