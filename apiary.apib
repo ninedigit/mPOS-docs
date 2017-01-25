@@ -7070,7 +7070,7 @@ Gets zone specified by its unique `Name`.
 
 + ExpectedQuantity (required, Quantity) - Quantity expected by system, based on stock transfers.
 + ActualQuantity (optional, Quantity) - Quantity actualy found by user, based on physical calculations. This value must be provided to perform stock taking closure.
-+ PLU (required, StockTakingItemPluInfo) - Informations about PLU
++ Plu (required, StockTakingItemPluInfo) - Informations about PLU
 
 ## StockTakingItemPluInfo (object)
 
@@ -7078,7 +7078,7 @@ Gets zone specified by its unique `Name`.
 + Code: 101 (required, number) - PLU code.
 + StockName: Stock01 (required, string) - PLU stock name.
 + ArticleCategoryLabel: PIZ (required, string) - 3 characters long label of article category
-+ VatInfo (required, VAT model) - informations about VAT category and VAT rate, based on VatCategory of PLU.
++ Vat (required, VAT model) - informations about VAT category and VAT rate, based on VatCategory of PLU.
 + RetailPrice (required, Money) - PLU retail price.
 + PurchasePrice (required, Money) - PLU average purchase price, calculated by division of PLU's stock value and stock quantity.
 
@@ -7127,8 +7127,8 @@ Gets zone specified by its unique `Name`.
 ## StockTransferItem (object)
 
 + Id: 1 (optional, number) - Unique item Id (unique within stock transfer). Value is provided by server.
-+ SourcePLU (optional, StockTransferItemPlu) - Informations about product that is being transfered from stock
-+ DestinationPLU (optional, StockTransferItemPlu) - Informations about product that is being transfered to stock
++ SourcePlu (optional, StockTransferItemPlu) - Informations about product that is being transfered from stock
++ DestinationPlu (optional, StockTransferItemPlu) - Informations about product that is being transfered to stock
 + Note: `This is a note.` (optional, string) - Optional string note
 
 ## StockTransferItemPlu
@@ -7138,13 +7138,13 @@ Gets zone specified by its unique `Name`.
 + StockName: Stock01 (required, string) - Name of stock
 + PurchasePrice (optional, Money) - Product purchase price, including VAT. Required for PLUs with type `StockItem`. Optional otherwise.
 + RetailPrice (required, Money) - Product retail price including VAT.
-+ VatInfo (required, VAT model) - Informations about VAT category and VAT rate.
++ Vat (required, VAT model) - Informations about VAT category and VAT rate.
 + Quantity (required, Quantity) - Contains positive or negative non-zero quantity.
 + DiscountRate: 50 (required, number) - indicates item discount rate, with value between 0 and 100 (inclusively), up to 2 decimal places.
 + IsDiscountAllowed: true (required, boolean) - Specifies whether discount can be placed on ticket item that represents this PLU.
 + Type: 1 (required, number) - Specifies type of PLU. See PLU section for possible PLU type values.
 + Note: `This is a note` (optional, string) - Optional string note.
-+ ReceiptItems (optional, array[StockTransferItemPlu]) - Contains collection of receipt items. Available only in PLUs with "receipt" type.
++ Receipt (optional, array[StockTransferItemPlu]) - Contains collection of receipt items. Available only in PLUs with "receipt" type.
 
 ## Ticket model (object)
 
