@@ -7079,8 +7079,8 @@ Gets zone specified by its unique `Name`.
 + StockName: Stock01 (required, string) - PLU stock name.
 + ArticleCategoryLabel: PIZ (required, string) - 3 characters long label of article category
 + Vat (required, VAT model) - informations about VAT category and VAT rate, based on VatCategory of PLU.
-+ RetailPrice (required, Money) - PLU retail price.
-+ PurchasePrice (required, Money) - PLU average purchase price, calculated by division of PLU's stock value and stock quantity.
++ UnitRetailPrice (required, Money) - PLU retail price.
++ UnitPurchasePrice (required, Money) - PLU average purchase price, calculated by division of PLU's stock value and stock quantity.
 
 ## StockTransfer (object)
 
@@ -7104,6 +7104,8 @@ Gets zone specified by its unique `Name`.
 + PaymentInfo (optional, StockTransferPaymentInfo) - Payment informations related to this stock transfer
 + Items (required, array[StockTransferItem]) - collection of PLUs with type stock item.
 + Meta (optional, object) - string-string dictionary used as a storage for meta iformations related to this stock transfer.
++ CurrencyLabel: EUR (required, string) - label of domestic currency. Length have to be between 1 and 3, inclusively.
++ DiscountRate: 50 (required, number) - indicates stock transfer discount rate, with value between 0 and 100 (inclusively), up to 2 decimal places. 
 
 ## StockTransferCompanyInfo (object)
 
@@ -7136,8 +7138,8 @@ Gets zone specified by its unique `Name`.
 + Name: Milk (required, string) - PLU name
 + Code: 101 (required, number) - Lookup code. Each PLU can be identified uniquely by code and stock name. Note: 32 bit integer is used to store this value.
 + StockName: Stock01 (required, string) - Name of stock
-+ PurchasePrice (optional, Money) - Product purchase price, including VAT. Required for PLUs with type `StockItem`. Optional otherwise.
-+ RetailPrice (required, Money) - Product retail price including VAT.
++ UnitPurchasePrice (optional, Money) - Product purchase price, including VAT. Required for PLUs with type `StockItem`. Optional otherwise.
++ UnitRetailPrice (required, Money) - Product retail price including VAT.
 + Vat (required, VAT model) - Informations about VAT category and VAT rate.
 + Quantity (required, Quantity) - Contains positive or negative non-zero quantity.
 + DiscountRate: 50 (required, number) - indicates item discount rate, with value between 0 and 100 (inclusively), up to 2 decimal places.
