@@ -866,6 +866,8 @@ Each ticket item may be constructed from existing PLU or from anonymous PLU.
 
 This section covers financial calculations on `Ticket` model. 
 
+Please note that:
+
 - all financial variables are rounded to *two* decimal places.
 - all quantity variables are rounded to *three* decimal places.
 
@@ -1023,6 +1025,150 @@ Then:
 - ticket's total amount brutto = 17.38
 - ticket's discount amount = 10.86
 - ticket's total amount netto = 6.52
+
+
+## Stock transfer composition
+
+This section covers references between stock transfer model and other resources.
+
+- `CurrencyLabel` property refers to `Label` of [currency](#reference/currencies/currencies-collection) marked as domestic.
+- `CreatedBy` refers to `Name` and `UserName` of an [user](#reference/users/user), that creates stock transfer or caused stock transfer creation. User profile is usually retrieved via authorization procedure.
+- `Company` refers to [company](#reference/companies/companies-collection) that is marked as default (property `IsDefault` is equal to `True`).
+- `Partner` refers to [company](#reference/companies/companies-collection) that is not marked as default - represents business partner.
+- `DocumentNumber` is filled by server side as an unique value (unique for `Category` and `SubCategory` combination).
+
+### Stock transfer item composition
+
+This section covers references between `StockTransferItem` model (used in `StockTransfer.Item` collection) and other models.
+
+Content of `SourcePlu` and `DestinationPlu` fields are based on stock transfer `Type` (income, outcome, transfer, correction) as follows:
+
+- in stock transfers with `Type` equal to `income`: item contains non-null value in `DestinationPlu` field, and null value in `SourcePlu` field.
+- in stock transfers with `Type` equal to `outcome`: item contains non-null value in `SourcePlu` field, and null value in `DestinationPlu` field.
+- in stock trasnfers with `Type` equal to `transfer` or `correction`: both `SourcePlu` and `DestinationPlu` have non-null value.
+
+Note: stock transfer item with null value in both `SourcePlu` and `DestainationPlu` fields is forbidden.
+
+Value of `Id` is provided by server side.
+
+### Stock transfer item PLU composition
+
+This section covers references between `StockTransferItemPlu` model (used in `StockTransferItem.SourcePlu` and `StockTransferItem.DestinationPlu`) and other models.
+
+- `Vat` - refers to existing [VAT category](#reference/vat-categories/vat-categories-collection) with `Category` equal to `PLU.VatCategory`.
+- `UnitPurchasePrice` - represents division of `plu.StockValue.Amount` and `plu.StockQuantity.Amount`, if plu is of type `Stockitem`. Otherwise, null value is provided.
+- All other fields (except `Quantity`, `DiscountRate`and `Note`) refers to an actual [PLU](#reference/plus/plu).
+
+Based on `Type` of plu, `Receipt` collection is composed as follows:
+
+- when `Type` is not equal to `Receipt`, receipt collection is equal to null.
+- otherwise, receipt collection equals child elements of same type (Stock transfer item plu). These element contains informations about PLUs that are referenced (by `StockValue` and `Code`) in `Receipt` collection of actual [PLU](#reference/plus/plu), and are composed with same principles.
+
+#### Example: 
+
+- Lets consider [PLU](#reference/plus/plu) with non-empty `Receipt` collection - we will call this plu "parent plu".
+- At first, we will compose `StockTransferItemPlu` from this parent plu - we will call this "parent StockTransferItemPlu".
+- All elements from parent plu `Receipt` collection will be transformed to `StockTransferItemPlu` and inserted to parent StockTransferItemPlu `Receipt` collection.
+
+## Stock transfer calculation guide
+
+This section covers financial calculations on `StockTransfer` model.
+
+Please note that:
+
+- all financial variables are rounded to *two* decimal places.
+- all quantity variables are rounded to *three* decimal places.
+
+### Stock transfer item plu calculations
+
+Stock transfer item plu consists only of following financial informations:
+
+- `UnitPurchasePrice` - Purchase price per one quantity unit. 
+- `UnitRetailPrice` - Retail price per one quantity unit.
+- `DiscountRate` - discount rate with value between 0 and 100.
+- `Quantity`
+
+All other financial values must be calculated additionally, and this section convers thier relationships.
+
+#### Normalized discount rate
+
+Normalized discount rate represents ticket items discount rate with value in range between 0 and 1. 
+
+`DiscountRateNormalized = DiscountRate / 100`
+
+#### Netto retail price per unit
+
+Netto retail price per unit represents retail price per one unit of product quantity, with applying discount.
+
+`UnitPriceNetto = UnitPriceBrutto - (UnitPriceBrutto * DiscountRateNormalized)`
+
+#### Brutto retail price
+
+Brutto retail price represents total retail price, without discount applying.
+
+`RetailPriceBrutto = Quantity * UnitPriceBrutto`
+
+#### Netto retail price
+
+Netto retail price represents total retail price, with applying discount.
+
+`RetailPriceNetto = Quantity * UnitPriceNetto`
+
+#### Discount amount
+
+Discount amount represents difference between brutto and netto total price.
+
+`DiscountAmount = RetailPriceBrutto - RetailPriceNetto`
+
+### Stock transfer item calculations
+
+#### Brutto retail price
+
+Brutto retail price represents total retail price, without discount applying.
+
+`RetailPriceBrutto = DestinationPlu.RetailPriceBrutto - SourcePlu.RetailPriceBrutto`
+
+#### Netto retail price
+
+Netto retail price represents total retail price, with applying discount.
+
+`RetailPriceNetto = DestinationPlu.RetailPriceNetto - SourcePlu.RetailPriceNetto`
+
+#### Discount amount
+
+Discount amount represents difference between brutto and netto total price.
+
+`DiscountAmount = DestinationPlu.DiscountAmount - SourcePlu.DiscountAmount`
+
+### Stock transfer calculations
+
+#### Normalized discount rate
+
+As in ticket item, normalized discount rate represents ticket items discount rate with value in range between 0 and 1. 
+
+`DiscountRateNormalized = DiscountRate / 100`
+
+#### Brutto retail price
+
+Represents total stock transfer amount without discount applying.
+
+`RetailPriceBrutto` is equal to sum of `item.RetailPriceBrutto` values for each stock transfer item element in `Items` collection.
+
+#### Netto retail price
+
+Represents total stock transfer amount with discount applying.
+
+`RetailPriceNetto` is equal to sum of `item.RetailPriceNetto - (item.RetailPriceNetto * stockTransfer.DiscountRateNormalized)`.
+
+#### Discount amount
+
+Discount amount represents difference between brutto and netto total price.
+
+`DiscountAmount = RetailPriceBrutto - RetailPriceNetto`
+
+### Example calculations
+
+TBD
 
 ## OData support
 
