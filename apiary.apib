@@ -6871,8 +6871,8 @@ Gets zone specified by its unique `Name`.
 
 ## Coordinates (object)
 
-+ X: 0 (required, number) - X-axis coordinate
-+ Y: 1 (required, number) - Y-axis coordinate
++ X: 0 (required, number) - X-axis coordinate, with value between 0 and 1.
++ Y: 1 (required, number) - Y-axis coordinate, with value between 0 and 1.
 
 ## Credentials (object)
 
@@ -6956,7 +6956,7 @@ Gets zone specified by its unique `Name`.
 
 + IsActive: true (required, boolean) - Determines whether this device can be used
 + Name: `CashRegister1` (required, string) - Unique device name
-+ EnvName: `CashRegister` - Environment name (one of following: BackOffice, CashRegister, PDA, Tool)
++ EnvName: `CashRegister`(required, string) - Environment name (one of following: BackOffice, CashRegister, PDA, Tool)
 + Description: `Cash register 1` (required, string) - Detailed description of device
 + Preferences (required, object) - Holds preferences, that are default for specific device and used by client. They can be overriden by user.
 + Roles (required, array[string]) - Default set of roles associated with this device. This does not affect any user.
@@ -6966,7 +6966,7 @@ Gets zone specified by its unique `Name`.
 
 + IsActive: true (required, boolean) - Determines whether this device can be used
 + Name: `CashRegister1` (required, string) - Unique device name
-+ EnvName: `CashRegister` - Environment name (one of following: BackOffice, CashRegister, PDA, Tool)
++ EnvName: `CashRegister` (required, string) - Environment name (one of following: BackOffice, CashRegister, PDA, Tool)
 + Description: `Cash register 1` (required, string) - Detailed description of device
 + Preferences (required, object) - Holds preferences, that are default for specific device and used by client. They can be overriden by user.
 + Roles (required, array[string]) - Default set of roles associated with this device. This does not affect any user.
