@@ -7216,6 +7216,7 @@ Gets zone specified by its unique `Name`.
 + ClosedAt: `2016-03-17T15:49:32.473Z` (optional, string) - Date and time of stock taking closure (ISO8601 format).
 + CreatedBy (required, UserInfo) - informations about employee that creates this stock taking.
 + ClosedBy (optional, UserInfo) - informations about employee that closes this stock taking.
++ CurrencyLabel: EUR (required, string) - label of domestic currency. Length have to be between 1 and 3, inclusively.
 + Items (required, array[StockTakingItem]) - collection of PLUs with type stock item.
 
 ## StockTakingItem (object)
