@@ -954,10 +954,13 @@ Lets consider ticket with one ticket item, that has:
 
 Then:
 
-- ticket item's unit price netto = 1.43
+- ticket item's total brutto price = 0.45
+- ticket item's unit price netto = 1.42
+- ticket item's total netto price = 0.43
+- ticket item's discount amount = 0.02
 - ticket's total amount brutto = 0.45
-- ticket's discount amount = 0.02
 - ticket's total amount netto = 0.43
+- ticket's discount amount = 0.02
 
 #### Example #2
 
@@ -969,10 +972,10 @@ Lets consider ticket with one ticket item, that has:
 
 Then:
 
-- ticket item's unit price netto = 2.76
+- ticket item's unit price netto = 2.75
 - ticket's total amount brutto = 2.90
-- ticket's discount amount = 0.14
-- ticket's total amount netto = 2.76
+- ticket's discount amount = 0.15
+- ticket's total amount netto = 2.75
 
 #### Example #3
 
@@ -992,13 +995,13 @@ Second ticket item:
 
 Then:
 
-- first ticket item's unit price netto = 4.35
-- first ticket item's discount amount = 4.34
+- first ticket item's unit price netto = 4.34
+- first ticket item's discount amount = 4.35
 - second ticket item's unit price netto = 2.17
 - second ticket item's discount amount = 6.52
 - ticket's total amount brutto = 17.38
-- ticket's discount amount = 10.86
-- ticket's total amount netto = 6.52
+- ticket's total amount netto = 6.51
+- ticket's discount amount = 10.87
 
 #### Example #4
 
@@ -1022,10 +1025,13 @@ Second ticket item:
 
 Then:
 
+- first ticket item's unit price netto = 8.69
+- first ticket item's discount amount = 0
+- second ticket item's unit price netto = 4.34
+- second ticket item's discount amount = 4.35
 - ticket's total amount brutto = 17.38
-- ticket's discount amount = 10.86
-- ticket's total amount netto = 6.52
-
+- ticket's total amount netto = 6.51
+- ticket's discount amount = 10.87
 
 ## Stock transfer composition
 
@@ -7459,3 +7465,4 @@ Gets zone specified by its unique `Name`.
 + Shape: Circle (required, string) - defines shape of zone item, with one of following values: Circle, Rectangle
 + Rotation: 45 (required, number) - Clockwise rotation in degrees 
 + Color: #fff (required, string) - RGB encoded color in format "#ffffff" or "#fff"
+0
