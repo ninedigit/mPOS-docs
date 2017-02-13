@@ -1041,7 +1041,7 @@ This section covers references between stock transfer model and other resources.
 - `CreatedBy` refers to `Name` and `UserName` of an [user](#reference/users/user), that creates stock transfer or caused stock transfer creation. User profile is usually retrieved via authorization procedure.
 - `Company` refers to [company](#reference/companies/companies-collection) that is marked as default (property `IsDefault` is equal to `True`).
 - `Partner` refers to [company](#reference/companies/companies-collection) that is not marked as default - represents business partner.
-- `DocumentNumber` is filled by server side as an unique value (unique for `Category` and `SubCategory` combination).
+- `DocumentNumber` is filled by server side as an unique value (unique for each `StockTransfer.Type`).
 
 ### Stock transfer item composition
 
@@ -7242,12 +7242,11 @@ Gets zone specified by its unique `Name`.
 + ClosedAt: `2016-03-17T15:49:32.473Z` (optional, string) - Date and time of stock transfer closure (ISO8601 format).
 + CreatedBy (required, UserInfo) - informations about employee that creates this stock transfer.
 + ClosedBy (optional, UserInfo) - informations about employee that closes this stock transfer.
-+ Category: 1 (required, number) - category with following values: 0 = unknown, 1 = income, 2 - outcome, 3 - transfer, 4 - correction
-+ SubCategory: 1 (required, number) - sub category with following values: 0 = unknown, 1 = sale, 2 = invoice, 3 = stock taking correction
++ Type: 1 (required, number) - category with following values: 0 - unknown, 1 - income, 2 - outcome, 3 - transfer, 4 - sale, 5 - invoice, 6   correction
 + Partner (optional, StockTransferCompanyInfo) - Informations about business partner (purchaser or supplier)
 + Company (required, StockTransferCompanyInfo) - Informations about system owner company
 + DueDate: `2016-03-17T15:49:32.473Z` (optional, string) - Optional date and time of stock transfer payment date (ISO8601 format).
-+ DocumentNumber: 123 (optional, number) - Document number provided by server side
++ DocumentNumber: `FA20160001` (optional, string) - Document number provided by server side
 + DocumentDate: `2016-03-17T15:49:32.473Z` (required, string) - Date and time of stock transfer evidence, which may be different from actual system date and time (ISO8601 format).
 + VariableSymbol: `20160123` (optional, string) - stock transfer variable symbol
 + ConstantSymbol: `0308` (optional, string) - stock transfer constant symbol
