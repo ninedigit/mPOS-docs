@@ -5738,7 +5738,7 @@ Gets stock specified by its `Id`.
 
 ### Get stock transfer numbering [GET]
 
-Gets stock specified by its `Id`.
+Gets stock transfer numbering specified by its `Id`.
 
 + Request
 
@@ -5836,7 +5836,7 @@ Stock transfer may be updated repeatedly. Delta is calculated on server side, af
 
 ### Get stock transfer [GET]
 
-Gets stock specified by its `Id`.
+Gets stock transfer specified by its `Id`.
 
 + Request
 
@@ -7426,7 +7426,7 @@ Gets zone specified by its unique `Name`.
 
 + Id: 56e28558 (optional, string) - Unique stock transfer identifier
 + Type: `Income` (required, string) - Stock transfer category with following values: Income, Outcome, Transfer, Sale, Invoice, Correction
-+ Format: `{yyyy}{mm}{i4}` (required, string)
++ Format: `{yyyy}{mm}{i4}` (required, string) - Represents format which will be transfered to stock transfer document number, after applying date time and number from current numbering.
 + Repeat: true (required, boolean) - Determines whether new numberings should be created based on period setup.
 + Numberings (required, array[StockTransferIntervalNumbering]) - collection of numbering intervals.
 
