@@ -1050,7 +1050,7 @@ This section covers references between `StockTransferItem` model (used in `Stock
 Content of `SourcePlu` and `DestinationPlu` fields are based on stock transfer `Type` (income, outcome, transfer, correction) as follows:
 
 - in stock transfers with `Type` equal to `income`: item contains non-null value in `DestinationPlu` field, and null value in `SourcePlu` field.
-- in stock transfers with `Type` equal to `outcome`: item contains non-null value in `SourcePlu` field, and null value in `DestinationPlu` field.
+- in stock transfers with `Type` equal to `outcome`, `invoice` or `sale`: item contains non-null value in `SourcePlu` field, and null value in `DestinationPlu` field.
 - in stock trasnfers with `Type` equal to `transfer` or `correction`: both `SourcePlu` and `DestinationPlu` have non-null value.
 
 Note: stock transfer item with null value in both `SourcePlu` and `DestainationPlu` fields is forbidden.
@@ -5602,6 +5602,193 @@ Gets stock specified by its `Id`.
 
     + Attributes (StockTaking)
 
+# Group Stock transfer numberings
+
+
+## Stock transfer numbering collection [/api/stocktransfernumberings/]
+
++ Attributes (StockTransferNumbering)
+
+### Get all stock transfer numberings [GET]
+
++ Request
+
+    + Headers
+
+            X-Access-Token: {{TokenId}}
+            Content-Type: application/json; charset=utf-8
+            Accept: application/json
+
++ Response 200 (application/json)
+    
+    + Attributes (array[StockTransferNumbering])
+
+### Create stock transfer numbering [POST]
+
++ Request
+
+    + Header
+    
+            X-Access-Token: {{TokenId}}
+            Content-Type: application/json; charset=utf-8
+            Accept: application/json
+
+    + Attributes (StockTransferNumbering)
+
++ Response 201 (application/json)
+
+    + Attributes (StockTransferNumbering)
+
+## Stock transfer numbering [/api/stocktransfernumberings/{id}]
+
++ Parameters
+
+    + id: a28da78k (string) - An unique Id of the stock transfer numbering.
+
+### Get stock transfer numbering [GET]
+
+Gets stock specified by its `Id`.
+
++ Request
+
+    + Header
+    
+            X-Access-Token: {{TokenId}}
+            Content-Type: application/json; charset=utf-8
+            Accept: application/json
+
++ Response 200 (application/json)
+
+    + Attributes (StockTransferNumbering)
+
++ Response 404 (application/json)
+
+        {
+          "Message": "Resource not found.",
+          "Code": 7
+        }
+
+### Create or update stock transfer numbering [PUT]
+
++ Request
+
+    + Header
+    
+            X-Access-Token: {{TokenId}}
+            Content-Type: application/json; charset=utf-8
+            Accept: application/json
+
+    + Attributes (StockTransferNumbering)
+
++ Response 200 (application/json)
+
+    + Attributes (StockTransferNumbering)
+
+### Delete stock transfer numbering [DELETE]
+
++ Request
+
+    + Header
+    
+            X-Access-Token: {{TokenId}}
+            Content-Type: application/json; charset=utf-8
+            Accept: application/json
+
++ Response 200 (application/json)
+
+    + Attributes (StockTransferNumbering)
+
+## OData stock transfer numberings collection [/odata/StockTransferNumberings]
+
+### Get all stock transfer numberings [GET]
+
++ Request
+
+    + Headers
+
+            X-Access-Token: {{TokenId}}
+            Content-Type: application/json; charset=utf-8
+            Accept: application/json
+
++ Response 200 (application/json)
+    
+    + Attributes (array[StockTransferNumbering])
+
+### Create stock transfer numbering [POST]
+
++ Request
+
+    + Header
+    
+            X-Access-Token: {{TokenId}}
+            Content-Type: application/json; charset=utf-8
+            Accept: application/json
+
+    + Attributes (StockTransferNumbering)
+
++ Response 201 (application/json)
+
+    + Attributes (StockTransferNumbering)
+
+## OData stock transfer numbering [/odata/StockTransferNumberings('{id}')]
+
++ Parameters
+
+    + id: a28da78k (string) - An unique Id of the stock transfer.
+
+### Get stock transfer numbering [GET]
+
+Gets stock specified by its `Id`.
+
++ Request
+
+    + Header
+    
+            X-Access-Token: {{TokenId}}
+            Content-Type: application/json; charset=utf-8
+            Accept: application/json
+
++ Response 200 (application/json)
+
+    + Attributes (StockTransferNumbering)
+
++ Response 404 (application/json)
+
+        {
+          "Message": "Resource not found.",
+          "Code": 7
+        }
+
+### Create or update stock transfer numbering [PUT]
+
++ Request
+
+    + Header
+    
+            X-Access-Token: {{TokenId}}
+            Content-Type: application/json; charset=utf-8
+            Accept: application/json
+
+    + Attributes (StockTransferNumbering)
+
++ Response 200 (application/json)
+
+    + Attributes (StockTransferNumbering)
+
+### Delete stock transfer numbering [DELETE]
+
++ Request
+
+    + Header
+    
+            X-Access-Token: {{TokenId}}
+            Content-Type: application/json; charset=utf-8
+            Accept: application/json
+
++ Response 200 (application/json)
+
+    + Attributes (StockTransferNumbering)
+
 # Group Stock Transfers
 
 Stock transfers provides way to perform stock quantity changes on stock items.
@@ -7235,6 +7422,26 @@ Gets zone specified by its unique `Name`.
 + UnitRetailPrice (required, Money) - PLU retail price.
 + UnitPurchasePrice (required, Money) - PLU average purchase price, calculated by division of PLU's stock value and stock quantity.
 
+## StockTransferNumbering (object)
+
++ Id: 56e28558 (optional, string) - Unique stock transfer identifier
++ Type: `Income` (required, string) - Stock transfer category with following values: Income, Outcome, Transfer, Sale, Invoice, Correction
++ Format: `{yyyy}{mm}{i4}` (required, string)
++ Repeat: true (required, boolean) - Determines whether new numberings should be created based on period setup.
++ Numberings (required, array[StockTransferIntervalNumbering]) - collection of numbering intervals.
+
+## StockTransferIntervalNumbering (object)
+
++ CreatedAt: `2017-03-17T15:49:32.473Z` (required, string) - Date and time of stock transfer numbering interval creation (ISO8601 format).
++ StartAt: `2017-03-01T00:00:00.000Z` (required, string) - Date and time of stock transfer numbering interval start (ISO8601 format).
++ Period (required, StockTransferIntervalNumberingPeriod) - Informations about period type and length.
++ CurrentNumber: 1, (required, number) - Current number of this interval.
+
+## StockTransferIntervalNumberingPeriod (object)
+
++ Unit: `Month` () - Time unit with one of following values: Day, Month.
++ Amount: `1` (required, number) - Numeric amount 
+
 ## StockTransfer (object)
 
 + Id: 56e28558 (optional, string) - Unique stock transfer identifier
@@ -7242,7 +7449,7 @@ Gets zone specified by its unique `Name`.
 + ClosedAt: `2016-03-17T15:49:32.473Z` (optional, string) - Date and time of stock transfer closure (ISO8601 format).
 + CreatedBy (required, UserInfo) - informations about employee that creates this stock transfer.
 + ClosedBy (optional, UserInfo) - informations about employee that closes this stock transfer.
-+ Type: 1 (required, number) - category with following values: 0 - unknown, 1 - income, 2 - outcome, 3 - transfer, 4 - sale, 5 - invoice, 6   correction
++ Type: `Income` (required, string) - Stock transfer category with following values: Income, Outcome, Transfer, Sale, Invoice, Correction
 + Partner (optional, StockTransferCompanyInfo) - Informations about business partner (purchaser or supplier)
 + Company (required, StockTransferCompanyInfo) - Informations about system owner company
 + DueDate: `2016-03-17T15:49:32.473Z` (optional, string) - Optional date and time of stock transfer payment date (ISO8601 format).
