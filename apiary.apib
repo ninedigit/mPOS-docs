@@ -7007,11 +7007,11 @@ Gets zone specified by its unique `Name`.
 
 ## BankAccount (object)
 
-+ BankCountry: `SK` (required, string) - Bank country
-+ BankName: `Tatra Banka, a.s.` (required, string) - Name of bank
-+ IBAN: `SK3011000000002616012345` (required, string) - Bank account number in IBAN format
-+ Number: `1100223344/1100` (required, string) - Bank account number in old format
-+ SWIFT: `TATRSKBX` (required, string) - Bank SWIFT code
++ BankCountry: `SK` (optional, string) - Bank country
++ BankName: `Tatra Banka, a.s.` (optional, string) - Name of bank
++ IBAN: `SK3011000000002616012345` (optional, string) - Bank account number in IBAN format
++ Number: `1100223344/1100` (optional, string) - Bank account number in old format
++ SWIFT: `TATRSKBX` (optional, string) - Bank SWIFT code
 
 ## Cash register settings
 
@@ -7040,20 +7040,47 @@ Gets zone specified by its unique `Name`.
 
 + Id: `56e28558` (required, string) - Unique company Id
 + Name: `TESCO inc.` (required, string) - Company name
-+ Address (required, Address) - Company address informations
-+ ShippingAddress (optional, Address) - Company shipping address informations
-+ Contact (required, Contact) - Company contant informations
-+ BankAccount (required, BankAccount) - Informations about company bank account and bank itself
 + CRN: `12345678` (required, string) - Company registration number (known as IČO, in Slovak Republic)
 + VatId: `SK1020304050` (required, string) - Vat ID (known as IČ DPH, in Slovak Republic)
 + TaxId: `1020305060` (required, string) - Tax ID (known as DIČ, in Slovak Republic)
-+ TaxPayer: true (required, boolean) - Defines whether company is tax payer
++ IsTaxPayer: true (required, boolean) - Defines whether company is tax payer
 + Register: `reg v OR OS Bratislava I, vl.č. 12345/B` (required, string) - Optional company registration informations
 + DueDays: 30 (required, number) - Number of days for invoice payment period
 + Type: Supplier (required, string) - Company type, one of following values: Unknown, Supplier, Purchaser
 + IsActive: true (required, boolean) - Determines whether this company is active and new stock transfers can be added
 + IsDefault: false (required, boolean) - Determines whether this company represents owner of cash register
 + DiscountRate: 50 (required, number) - Discount rate percentage, with value between 0 and 100, with precision up to two decimal places
++ Addresses (required, array[CompanyAddress]) - Company address informations
++ BankAccounts (required, array[CompanyBankAccount]) - Informations about company bank accounts
++ Contacts (required, array[CompanyContact]) - Company contants
+
+## CompanyAddress (object)
+
++ Street: 123 Main St. (optional, string) - 
++ City: Bratislava (optional, string) - 
++ ZipCode: 841 05 (optional, string) - 
++ Country: Slovakia  (optional, string) - 
++ Type: Slovakia (optional, string) - Type of addres. Contains one of following values: 0 - Unknown, 1 - Office, 2 - Billing, 3 - Shipping, 4 - Other
+
+## CompanyBankAccount (object)
+
++ BankCountry: `SK` (optional, string) - Bank country
++ BankName: `Tatra Banka, a.s.` (optional, string) - Name of bank
++ IBAN: `SK3011000000002616012345` (optional, string) - Bank account number in IBAN format
++ Number: `1100223344/1100` (optional, string) - Bank account number in old format
++ SWIFT: `TATRSKBX` (optional, string) - Bank SWIFT code
++ IsDefault: false (optional, boolean) - Determines whether this is default company bank account
+
+## CompanyContact (object)
+
++ Fax: 02 123 456 (optional, string) - 
++ Phone: 02 123 456 (optional, string) - 
++ Mobile: +421 903 123 456 (optional, string) - 
++ Email: adam.smith@mail.com (optional, string) - 
++ IsDefault: false (required, boolean) - Determines whether this is default company bank account
++ Name: John (optional, string) - 
++ Surname: Doe (optional, string) - 
++ Note: `This is a note` (optional, string) - Optional note for this contact.
 
 ## Contact (object)
 
@@ -7459,9 +7486,11 @@ Gets zone specified by its unique `Name`.
 + ConstantSymbol: `0308` (optional, string) - stock transfer constant symbol
 + SpecificSymbol: `123456` (optional, string) - stock transfer specific symbol
 + Note: `This is a note.` (optional, string) - Optional string note
-+ DeliveryType (required, number) - Delivery type with following values: 0 = unknown, 1 = none, 2 = cartage, 3 = post office, 4 = courier
-+ PaymentInfo (optional, StockTransferPaymentInfo) - Payment informations related to this stock transfer
++ DeliveryType (required, number) - Delivery type with following values: 0 = unknown, 1 = none, 2 = cartage, 3 = post office, 4 = courier, 5 = pickUp
++ DeliveryDate: `2016-03-17T15:49:32.473Z` (optional, string) - Date and time of stock transfer delivery (ISO8601 format).
 + Items (required, array[StockTransferItem]) - collection of PLUs with type stock item.
++ Payments (required, array[StockTransferPayment]) - collection of stock transfer payments.
++ PaymentType: 0 (required, number) - Expected payment method type with following values: 0 = unknown, 1 = cash, 2 = bank transfer, 3 = POS terminal, 4 = money order, 5 = cash on delivery, 6 = coupon, 7 = other
 + Meta (optional, object) - string-string dictionary used as a storage for meta iformations related to this stock transfer.
 + CurrencyLabel: EUR (required, string) - label of domestic currency. Length have to be between 1 and 3, inclusively.
 + DiscountRate: 50 (required, number) - indicates stock transfer discount rate, with value between 0 and 100 (inclusively), up to 2 decimal places. 
@@ -7472,18 +7501,21 @@ Gets zone specified by its unique `Name`.
 + CRN: `12345678` (required, string) - Company registration number (known as IČO, in Slovak Republic)
 + VatId: `SK1020304050` (required, string) - Vat ID (known as IČ DPH, in Slovak Republic)
 + TaxId: `1020305060` (required, string) - Tax ID (known as DIČ, in Slovak Republic)
-+ TaxPayer: true (required, boolean) - Defines whether company is tax payer
++ IsTaxPayer: true (required, boolean) - Defines whether company is tax payer
 + Register: `reg v OR OS Bratislava I, vl.č. 12345/B` (required, string) - Optional company registration informations
 + Contact (required, Contact) - Company contant informations
 + Address (required, Address) - Company address informations
 + ShippingAddress (optional, Address) - Company shipping address informations
 + BankAccount (required, BankAccount) - Informations about company bank account and bank itself
 
-## StockTransferPaymentInfo (object)
+## StockTransferPayment (object)
 
 + PaymentType: 0 (required, number) - Payment method type with following values: 0 = unknown, 1 = cash, 2 = bank transfer, 3 = POS terminal, 4 = money order, 5 = cash on delivery, 6 = coupon, 7 = other
-+ IsPaid: true (required, boolean) - 
++ Amount (required, MoneyInfo) - amount in domestic or foreign currency.
 + PaidAt: `2016-03-17T15:49:32.473Z` (optional, string) - Date and time of stock transfer payment evidence (ISO8601 format).
++ Note: `This is a note.` (optional, string) - Optional string note for this payment.
++ CreatedAt: `2016-03-17T15:49:32.473Z` (required, string) - Date and time of stock transfer payment creation (ISO8601 format).
++ CreatedBy (required, UserInfo) - informations about employee that creates this stock transfer payment.
 
 ## StockTransferItem (object)
 
