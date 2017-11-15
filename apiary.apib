@@ -706,6 +706,7 @@ Each resource that API provides has one of access restrictions:
   - `stockTakingCreate`
   - `stockTakingUpdate`
   - `stockTakingDelete`
+  - `stockTakingClose`
 
 - Tickets
   - `ticketCreate`
@@ -7437,12 +7438,13 @@ Gets zone specified by its unique `Name`.
 
 + ExpectedQuantity (required, Quantity) - Quantity expected by system, based on stock transfers.
 + ActualQuantity (optional, Quantity) - Quantity actualy found by user, based on physical calculations. This value must be provided to perform stock taking closure.
-+ Plu (required, StockTakingItemPluInfo) - Informations about PLU
++ Plu (required, StockTakingItemPlu) - Informations about PLU
 
-## StockTakingItemPluInfo (object)
+## StockTakingItemPlu (object)
 
 + Name: Milk (required, string) - PLU name.
 + Code: 101 (required, number) - PLU code.
++ Codes: [] (required, array[string]) - PLU codes.
 + StockName: Stock01 (required, string) - PLU stock name.
 + ArticleCategoryLabel: PIZ (required, string) - 3 characters long label of article category
 + Vat (required, VAT model) - informations about VAT category and VAT rate, based on VatCategory of PLU.
@@ -7661,7 +7663,7 @@ Gets zone specified by its unique `Name`.
 
 + Name: John Mayer (required, string) - Full name.
 + UserName: John123 (required, string) - Unique user name (login).
-+ Rights: ["admin"] (required, array[string]) - array of user roles.
++ Rights: ["admin"] (required, array[string]) - array of user roles.Pl
 + Device (required, User profile device) - device which user operates on.
 
 ## User profile device (object)
