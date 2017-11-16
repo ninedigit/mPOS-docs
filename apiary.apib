@@ -1248,7 +1248,7 @@ URL addresses for each resource or RPC action are mentioned in relevant chapter 
 
 Please note several differences between original routes and OData routes:
 
-1. HTTP status code is 400 instead of 422, in invalid payload scenarios.
+1. Error model and Validation error models are different
 2. JSON Serialization of dictionaries are different. This affects JSON representation of `device.Settings`, `fiscal.Settings`, `orderEndpoint.Settings` and `stockTransfer.Meta`.
 
 Examples of classic and OData serialization of device model is provided below. Please note `Settings` property differences - serialization as *object* in regular API routes, and serialization as *key-value pair collection* in OData routes.
