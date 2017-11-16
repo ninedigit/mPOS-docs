@@ -756,35 +756,22 @@ List of HTTP status codes used by API is mentioned below.
   - 202 - Accepted
   - 204 - No Content
 
-- Error status codes with `API error` model in response body
-  - 401 - Unauthorized (user is not logged in)
-  - 403 - Forbidden (user is logged in but does not have sufficient access rights, or operation itself is forbidden)
+- Error status codes
+  - 400 - Bad Request
+  - 401 - Unauthorized: user is not logged in, or user authentication has failed (invalid credentials)
+  - 403 - Forbidden: user is logged in but does not have sufficient access rights, or operation itself is forbidden
   - 404 - Not found
   - 423 - Locked
   - 500 - Internal server error
 
-- Error status codes with `API validation error` model in response body 
-  - 422 - Unprocessable entity
+## Error models
 
-Note: In OData calls, validation error has status code 400 instead of 422.
-
-### Error response examples
-
-#### API error
-
-```
-{
-  "Message": "Invalid user name or password.",
-  "Code": 1
-}
-```
-
-API error model contains two fields:
+Every error model contains two fields:
 
 - `Message`: contains error description. Error message may be propagated to user. See also [lozalization](#introduction/localization) section, to learn about error message language options.
 - `Code`: error code describing error reason.
 
-Following error codes are defined:
+The `Code` property contains one of following values:
 
 - 0 - `Unspecified`
 - 1 - `Unauthenticated`
@@ -793,34 +780,110 @@ Following error codes are defined:
 - 4 - `LicenceExpired`
 - 5 - `ResourceLocked`
 
-#### API validation error
+If `Code` property is equal to 3 (`ValidationFailed`) - "Error" object contains additional property/properties, we call this "Validation Error" object.
+
+In next section, you can find both error and validation error examples.
+
+Please note that error and validation error is different for OData and non-OData routes.
+
+### Error examples
+
+#### API Error example
 
 ```
 {
-  "Message": "Validation failed"
-  "Code": 3,
-  "Errors": [
-    {
-      "Field": "Label",
-      "Message": "Length must be in range between '1' and '3' characters.",
-      "Code": 0
-    }
-  ]
+  "Message": "Invalid user name or password.",
+  "Code": 1,
+
+  // Additional fields are included in DEBUG mode only:
+  "ExceptionType": "NineDigit.mPOS.Core.Exceptions.UnauthenticatedException",
+  "ExceptionMessage": "Unauthenticated",
+  "StackTrace": "..."
 }
 ```
 
-In addition to message and code, collection of errors is part of validation error model.
-Each element of errors collection contains:
+#### OData Error example
 
-- `Field`: name of field that contains validation error
+`code` and `message` properties have same purpose as in API Error model.
+Additional `innererror` informations are present in DEBUG mode only.
+
+```
+{
+    "error": {
+        "code": "1",
+        "message": "An error has occurred.",
+        // DEBUG mode only
+        "innererror": {
+            "message": "Unauthenticated",
+            "type": "NineDigit.mPOS.Core.Exceptions.UnauthenticatedException",
+            "stacktrace": "..."
+        }
+    }
+}
+```
+
+### Validation Error examples
+
+#### API Validation Error example
+
+API Validation Error object contains next to `Message` and `Code` an additional property - `ModelState`. 
+
+Model state is an dictionary of keys and values.
+
+Key is represented by name of field that contains validation error.
+Value is represented by array of violated validation rules.
+
+Each element of value collection contains:
+
 - `Message`: description of validation rule that was violated
 - `Code`: numeric code indicating which validation rule was violated
 
-Following validation error codes are defined: TBD
+Following validation error codes are defined:
 
-- 0 - `Unspecified`
+- 0 - `Required`: The value of field marked as required was not provided.
+- 1 - `Unique`: Duplicity was detected for value(s) that must be unique.
 
-If some field violates more than one rule, two or more error elements with same field value are present in errors collection. 
+```
+{
+    "Message": "Validation failed",
+    "Code": "3",
+    "ModelState": {
+        "ticketDto.Name": [
+            {
+                "Code": null,
+                "Message": "Value can not be empty"
+            }
+        ]
+    }
+}
+```
+
+#### OData Validation Error example
+
+If `Code` value is equal to 3 (`ValidationFailed`), response object contains next to `Message` and `Code` an additional property - `details`. 
+
+`details` is an array of violated validation rules with following properties:
+
+- `code` and `message`: same purpose as in API validation error.
+- `target`: name of field that contains validation error.
+
+If some field violates more than one rule, two or more elements with same `target` value are present in `details` collection. 
+
+```
+{
+    "error": {
+        "code": "3",
+        "message": "Validation failed",
+        "details": [
+            {
+                "code": "",
+                "target": "ticketDto.Name",
+                "message": "Value can not be empty"
+            }
+        ]
+    }
+}
+```
 
 ## Localization
 
@@ -7663,7 +7726,7 @@ Gets zone specified by its unique `Name`.
 
 + Name: John Mayer (required, string) - Full name.
 + UserName: John123 (required, string) - Unique user name (login).
-+ Rights: ["admin"] (required, array[string]) - array of user roles.Pl
++ Rights: ["admin"] (required, array[string]) - array of user roles.
 + Device (required, User profile device) - device which user operates on.
 
 ## User profile device (object)
