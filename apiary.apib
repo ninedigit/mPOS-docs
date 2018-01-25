@@ -2267,7 +2267,7 @@ Only currency not marked as domestic can be deleted.
 
     + Attributes (Customer model)
 
-## Customer [/api/customer/{id}]
+## Customer [/api/customers/{id}]
 
 + Parameters
 
@@ -3018,7 +3018,7 @@ Based on `Type`, settings object may contain various fields.
 
     + Attributes (Fiscal model)
 
-## Fiscal [/api/fiscal/{id}]
+## Fiscal [/api/fiscals/{id}]
 
 + Parameters
 
@@ -3078,7 +3078,7 @@ Gets fiscal specified by its unique name.
 
     + Attributes (Fiscal model)
 
-## Cash drawer [/api/fiscal/{id}/open_drawer]
+## Cash drawer [/api/fiscals/{id}/open_drawer]
 
 + Parameters
 
@@ -3107,7 +3107,7 @@ Fiscal device must be marked as active to perform this action.
           "Code": 7
         }
 
-## Cash transfer [/api/fiscal/{id}/cash_transfer]
+## Cash transfer [/api/fiscals/{id}/cash_transfer]
 
 + Parameters
 
@@ -3141,7 +3141,7 @@ Fiscal device must be marked as active to perform this action.
           "Code": 7
         }
 
-## Record copy [/api/fiscal/{id}/print_record_copy]
+## Record copy [/api/fiscals/{id}/print_record_copy]
 
 + Parameters
 
@@ -3173,7 +3173,7 @@ Fiscal device must be marked as active to perform this action.
           "Code": 7
         }
 
-## Last record copy [/api/fiscal/{id}/print_last_record_copy]
+## Last record copy [/api/fiscals/{id}/print_last_record_copy]
 
 + Parameters
 
@@ -3202,7 +3202,7 @@ Fiscal device must be marked as active to perform this action.
           "Code": 7
         }
 
-## Overview sales report [/api/fiscal/{id}/print_overview_sales_report]
+## Overview sales report [/api/fiscals/{id}/print_overview_sales_report]
 
 + Parameters
 
@@ -3231,7 +3231,7 @@ Fiscal device must be marked as active to perform this action.
           "Code": 7
         }
 
-## Daily sales report [/api/fiscal/{id}/print_daily_sales_report]
+## Daily sales report [/api/fiscals/{id}/print_daily_sales_report]
 
 + Parameters
 
@@ -3262,7 +3262,7 @@ Fiscal device must be marked as active to perform this action.
           "Code": 7
         }
 
-## Daily sales report copy [/api/fiscal/{id}/print_daily_sales_report_copy]
+## Daily sales report copy [/api/fiscals/{id}/print_daily_sales_report_copy]
 
 + Parameters
 
@@ -3293,7 +3293,7 @@ Fiscal device must be marked as active to perform this action.
           "Code": 7
         }
 
-## Last daily sales report copy [/api/fiscal/{id}/print_last_daily_sales_report_copy]
+## Last daily sales report copy [/api/fiscals/{id}/print_last_daily_sales_report_copy]
 
 + Parameters
 
@@ -3322,7 +3322,7 @@ Fiscal device must be marked as active to perform this action.
           "Code": 7
         }
 
-## Summary interval sales report [/api/fiscal/{id}/print_summary_intrerval_sales_report]
+## Summary interval sales report [/api/fiscals/{id}/print_summary_intrerval_sales_report]
 
 + Parameters
 
@@ -3353,7 +3353,7 @@ Fiscal device must be marked as active to perform this action.
           "Code": 7
         }
 
-## Detailed interval sales report [/api/fiscal/{id}/print_detailed_intrerval_sales_report]
+## Detailed interval sales report [/api/fiscals/{id}/print_detailed_intrerval_sales_report]
 
 + Parameters
 
@@ -6093,7 +6093,7 @@ Ticket represents cash register receipt.
 
     + Attributes (Ticket model)
 
-## Ticket [/api/ticket/{id}]
+## Ticket [/api/tickets/{id}]
 
 #### Ticket restrictions
 
@@ -6187,7 +6187,7 @@ tickets sychronization  after ticket splitting operation.
     
     + Attributes (array[Ticket model])
 
-## Ticket closing [/api/ticket/{id}/close]
+## Ticket closing [/api/tickets/{id}/close]
 
 Ticket closing represents process, when ticket is 
 printed on fiscal printer. After printing ticket 
@@ -6221,7 +6221,7 @@ in payments collection.
 
     + Attributes (Ticket model)
 
-## Preliminary ticket priting [/api/ticket/{id}/print_preliminary_ticket]
+## Preliminary ticket priting [/api/tickets/{id}/print_preliminary_ticket]
 
 Printing ticket as nonfiscal record on specified order endpoint.
 Preliminary ticket may be printed on ticket marked as opened or closed with unlimited repetition.
@@ -6448,7 +6448,7 @@ Please note: When querying Users, `User` object is returned. During create or up
 
     + Attributes (UserDTO)
 
-## User [/api/user/{id}/]
+## User [/api/users/{id}/]
 
 + Parameters
 
